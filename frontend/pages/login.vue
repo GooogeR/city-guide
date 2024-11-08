@@ -12,6 +12,10 @@
     <p v-if="error">
       {{ error }}
     </p>
+    <!-- Кнопка для перехода на страницу регистрации -->
+    <button @click="goToRegister">
+      Регистрация
+    </button>
   </div>
 </template>
 
@@ -38,14 +42,21 @@ export default {
         }
 
         const data = await response.json()
-        // Сохранение токена
-        localStorage.setItem('token', data.token)
 
-        // Редирект на профиль после успешного логина
+        // Сохранение токенов в localStorage
+        localStorage.setItem('token', data.accessToken)
+        localStorage.setItem('refreshToken', data.refreshToken)
+
+        console.log('Токен сохранен:', data.accessToken)
+
+        // Перенаправление на страницу профиля
         this.$router.push('/profile')
       } catch (error) {
         this.error = error.message
       }
+    },
+    goToRegister () {
+      this.$router.push('/register')
     }
   }
 }

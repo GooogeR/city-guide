@@ -5,10 +5,11 @@ const mongoose = require('mongoose');
 const authRoutes = require('./routes/auth');
 const placeRoutes = require('./routes/places');
 const cors = require('cors');
-
+const path = require('path');
 const app = express();
 app.use(express.json());
 app.use(cors());
+
 
 // Подключение к MongoDB с использованием URI из переменной окружения
 mongoose.connect(process.env.MONGODB_URI, {
@@ -20,6 +21,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 // Роуты
 app.use('/api', authRoutes);
 app.use('/api/places', placeRoutes); // Регистрируем маршруты для объектов
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

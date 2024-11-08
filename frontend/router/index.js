@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../views/Login.vue' // Путь к компоненту Login
 import Profile from '../views/Profile.vue' // Путь к компоненту Profile (личный кабинет)
 import Home from '../views/Home.vue' // Путь к главной странице
+import PlaceDetails from '../views/PlaceDetails.vue' // Путь к компоненту PlaceDetails
 
 // Настройка маршрутов
 const routes = [
@@ -20,6 +21,12 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: Profile, // Страница личного кабинета
+    meta: { requiresAuth: true } // Страница требует авторизации
+  },
+  {
+    path: '/city/:id', // Страница с подробной информацией о месте
+    name: 'PlaceDetails',
+    component: PlaceDetails, // Компонент для отображения подробностей
     meta: { requiresAuth: true } // Страница требует авторизации
   }
 ]

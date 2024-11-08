@@ -13,9 +13,6 @@
     <p v-if="error">
       {{ error }}
     </p>
-    <p v-if="success">
-      {{ success }}
-    </p>
   </div>
 </template>
 
@@ -26,8 +23,7 @@ export default {
       name: '',
       email: '',
       password: '',
-      error: '',
-      success: ''
+      error: ''
     }
   },
   methods: {
@@ -36,18 +32,17 @@ export default {
         const response = await fetch('http://localhost:3001/api/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: this.name,
-            email: this.email,
-            password: this.password
-          })
+          body: JSON.stringify({ name: this.name, email: this.email, password: this.password })
         })
 
         if (!response.ok) {
-          throw new Error('Ошибка при регистрации')
+          const errorData = await response.json()
+          throw new Error(errorData.message || 'Ошибка регистрации')
         }
 
-        this.success = 'Регистрация прошла успешно!'
+        const data = await response.json()
+        console.log('Регистрация успешна:', data)
+        this.$router.push('/login')
       } catch (error) {
         this.error = error.message
       }
